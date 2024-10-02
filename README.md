@@ -4,7 +4,7 @@
 
 ---
 
-An improvement on [Calsen](github.com/Adwaith-Rajesh/calsen)
+An improvement on [Calsen](https://github.com/Adwaith-Rajesh/calsen)
 
 
 ## Why?
