@@ -5,4 +5,6 @@
 
 void *malloc_with_check(size_t size);
 
+void *realloc_with_check(void *pre, size_t size);
+
 #endif
