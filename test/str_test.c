@@ -1,24 +1,27 @@
 #include <stdio.h>
 
-#include "utils/test.h"
+#include "string.h"
+#include "test.h"
+
+#define STR_MALLOC(SZ) malloc_with_check(SZ)
+#define STR_REALLOC(PTR, SZ) realloc_with_check(PTR, SZ)
+#define FREE(PTR) free(PTR)
+
+#define _LOOOKA_MEM_IMPLEMENTATION
+#include "mem.h"
 
 #define _LOOOKA_STR_IMPLEMENTATION
-#include "ds/str.h"
+#include "str.h"
 
 DEF_TEST(test_str_create) {
-    // String *new_str = str_create(10);
-    ASSERT(1 == 0);
-}
-
-DEF_TEST(test_str_create_2) {
-    ASSERT(1 == 1);
+    String *new_str = str_create(10);
+    ASSERT(new_str->size == 10);
 }
 
 int main(void) {
     TEST_INIT(__FILE__);
 
     ADD_TEST(test_str_create);
-    ADD_TEST(test_str_create_2);
 
     run_all_test();
 }

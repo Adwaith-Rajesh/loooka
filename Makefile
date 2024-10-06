@@ -1,7 +1,7 @@
 BUILD_DIR=./build
 BINARY=$(BUILD_DIR)/loooka
 SRCDIR=./src
-INCDIR=./src
+INCDIR=./src ./src/utils ./src/ds
 TESTDIR=./test
 
 SRC_FILES=$(shell find $(SRCDIR) -type f -name "*.c")
