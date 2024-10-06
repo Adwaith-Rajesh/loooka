@@ -30,6 +30,36 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 // A simple string lib for loooka
+
+/*
+Usage
+
+   #define _LOOOKA_STR_IMPLEMENTATION
+   #include "str.h"
+
+   int main() {
+      String *str = str_create();
+      ...
+   }
+
+
+define STR_MALLOC to avoid using malloc, realloc
+
+Usage:
+   #define STR_MALLOC(SZ)           malloc(SZ)
+   #define STR_REALLOC(PTR, SZ)     realloc(PTR, SZ)
+   #define STR_FREE(PTR)            free(PTR)
+
+   #define _LOOOKA_STR_IMPLEMENTATION
+   #include "str.h"
+
+   int main() {
+      String *str = str_create();
+      ...
+   }
+
+*/
+
 #ifndef _LOOOKA_STR_H
 #define _LOOOKA_STR_H
 
@@ -40,12 +70,40 @@ typedef struct {
     size_t size;
 } String;
 
-// Create a String with the given size
+/*
+Create a String with the given size
+*/
 String *str_create(size_t size);
 
-// Create a String from cstr (NULL terminated)
+/*
+Create a String from c string.
+
+Setting cstr == NULL, is equivalent to str_create(0);
+*/
 String *str_create_cstr(const char *cstr);
 
-#define _LOOOKA_STR_IMPLEMENTATION
+#endif  // header
+
+/*
+
+########## Implementation s##########
+
+*/
+
+#ifdef _LOOOKA_STR_IMPLEMENTATION
+
+#ifndef STR_MALLOC
+#include <stdlib.h>
+#define STR_MALLOC(SZ) malloc(SZ)
+#define STR_REALLOC(PTR, SZ) realloc(PTR, SZ)
+#define STR_FREE(PTR) free(PTR)
+#endif
+
+String *str_create(size_t size) {
+    String *new_str = STR_MALLOC(sizeof(String));
+    new_str->str = STR_MALLOC(sizeof(char) * size);
+    new_str->size = size;
+    return new_str;
+}
 
 #endif
