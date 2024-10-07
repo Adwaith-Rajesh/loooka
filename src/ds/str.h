@@ -65,6 +65,14 @@ Usage:
 
 #include <stddef.h>
 
+#ifndef STRDEF
+#ifdef STRDEF_STATIC
+#define STRDEF static
+#else
+#define STRDEF extern
+#endif  // STRDEF_STATIC
+#endif  // STRDEF
+
 typedef struct {
     char *str;
     size_t size;
@@ -73,14 +81,14 @@ typedef struct {
 /*
 Create a String with the given size
 */
-String *str_create(size_t size);
+STRDEF String *str_create(size_t size);
 
 /*
 Create a String from c string.
 
 Setting cstr == NULL, is equivalent to str_create(0);
 */
-String *str_create_cstr(const char *cstr);
+STRDEF String *str_create_cstr(const char *cstr);
 
 #endif  // header
 
@@ -99,7 +107,7 @@ String *str_create_cstr(const char *cstr);
 #define STR_FREE(PTR) free(PTR)
 #endif
 
-String *str_create(size_t size) {
+STRDEF String *str_create(size_t size) {
     String *new_str = STR_MALLOC(sizeof(String));
     new_str->str = STR_MALLOC(sizeof(char) * size);
     new_str->size = size;
