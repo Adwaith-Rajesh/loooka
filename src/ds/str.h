@@ -90,6 +90,11 @@ Setting cstr == NULL, is equivalent to str_create(0);
 */
 STRDEF String *str_create_cstr(const char *cstr);
 
+/*
+Free the String
+*/
+STRDEF void str_free(String *str);
+
 #endif  // header
 
 /*
@@ -99,6 +104,8 @@ STRDEF String *str_create_cstr(const char *cstr);
 */
 
 #ifdef _LOOOKA_STR_IMPLEMENTATION
+
+#include <string.h>
 
 #ifndef STR_MALLOC
 #include <stdlib.h>
@@ -112,6 +119,18 @@ STRDEF String *str_create(size_t size) {
     new_str->str = STR_MALLOC(sizeof(char) * size);
     new_str->size = size;
     return new_str;
+}
+
+STRDEF String *str_create_cstr(const char *cstr) {
+    size_t len = strlen(cstr);
+    String *new_str = str_create(len);
+    strncpy(new_str->str, cstr, len);
+    return new_str;
+}
+
+STRDEF void str_free(String *str) {
+    STR_FREE(str->str);
+    STR_FREE(str);
 }
 
 #endif
